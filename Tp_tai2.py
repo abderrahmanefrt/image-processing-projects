@@ -1,24 +1,22 @@
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+
+
+# --- Lecture des images ---
 lena = cv2.imread('lena.jpg', cv2.IMREAD_GRAYSCALE)
 alex = cv2.imread('alex.png', cv2.IMREAD_GRAYSCALE)
 
+# --- Création d’une image binaire B avec un rectangle aléatoire ---
 B = np.zeros_like(lena, dtype=np.uint8)
 h, w = lena.shape
 x1, y1 = random.randint(0, w // 2), random.randint(0, h // 2)
 x2, y2 = random.randint(w // 2, w - 1), random.randint(h // 2, h - 1)
 cv2.rectangle(B, (x1, y1), (x2, y2), color=255, thickness=-1)
 
-addition = cv2.add(lena, B)
-soustraction = cv2.subtract(lena, B)
-multiplication = cv2.multiply(lena, B, scale=1/255)
-
-And = cv2.bitwise_and(lena, B)
-Or = cv2.bitwise_or(lena, B)
-Xor = cv2.bitwise_xor(lena, B)
 
 
 
@@ -31,50 +29,6 @@ def HISTO(img):
     return hist
 
 hist_lena = HISTO(lena)
-
-
-def TRL(img, C):
-    img_trl = img.astype(np.int16) + C  # éviter débordement
-    img_trl = np.clip(img_trl, 0, 255)  # rester entre 0 et 255
-    return img_trl.astype(np.uint8)
-
-lena_plus = TRL(lena, 50)
-lena_minus = TRL(lena, -50)
-
-plt.figure(figsize=(12,6))
-
-plt.subplot(2,3,1)
-plt.imshow(lena, cmap='gray')
-plt.title("Image originale")
-plt.axis('off')
-
-plt.subplot(2,3,2)
-plt.imshow(lena_plus, cmap='gray')
-plt.title("C = +50 ")
-plt.axis('off')
-
-plt.subplot(2,3,3)
-plt.imshow(lena_minus, cmap='gray')
-plt.title("C = -50")
-plt.axis('off')
-
-plt.subplot(2,3,4)
-plt.plot(HISTO(lena), color='black')
-plt.title("Histogramme original")
-
-plt.subplot(2,3,5)
-plt.plot(HISTO(lena_plus), color='black')
-plt.title("Histogramme +50")
-
-plt.subplot(2,3,6)
-plt.plot(HISTO(lena_minus), color='black')
-plt.title("Histogramme -50")
-
-plt.tight_layout()
-plt.show()
-
-
-
 
 plt.figure(figsize=(10,4))
 plt.subplot(1,2,1)
@@ -91,6 +45,70 @@ plt.tight_layout()
 plt.show()
 
 
+
+def TRL(img, C):
+    """Ajoute une constante C à chaque pixel (translation de luminosité)"""
+    img_trl = img.astype(np.int16) + C  # éviter débordement
+    img_trl = np.clip(img_trl, 0, 255)  # garder entre 0 et 255
+    return img_trl.astype(np.uint8)
+
+# --- Application TRL ---
+lena_plus = TRL(lena, 50)
+lena_minus = TRL(lena, -50)
+
+# --- Affichage des images et histogrammes ---
+plt.figure(figsize=(12,6))
+
+plt.subplot(2,3,1); plt.imshow(lena, cmap='gray'); plt.title("Image originale"); plt.axis('off')
+plt.subplot(2,3,2); plt.imshow(lena_plus, cmap='gray'); plt.title("C = +50 (plus claire)"); plt.axis('off')
+plt.subplot(2,3,3); plt.imshow(lena_minus, cmap='gray'); plt.title("C = -50 (plus sombre)"); plt.axis('off')
+
+plt.subplot(2,3,4); plt.plot(HISTO(lena), color='black'); plt.title("Histogramme original")
+plt.subplot(2,3,5); plt.plot(HISTO(lena_plus), color='black'); plt.title("Histogramme +50")
+plt.subplot(2,3,6); plt.plot(HISTO(lena_minus), color='black'); plt.title("Histogramme -50")
+
+plt.tight_layout()
+plt.show()
+
+# ============================================================
+# 🔹 PARTIE 2 - Inversion de l’image : Questions 10 → 12
+# ============================================================
+
+# --- Inversion (négatif) ---
+inversion = 255 - lena
+hist_inverse = HISTO(inversion)
+
+# --- Affichage image + histogramme avant/après ---
+plt.figure(figsize=(12,6))
+
+plt.subplot(2,2,1)
+plt.imshow(lena, cmap='gray')
+plt.title("Image originale (Lena)")
+plt.axis('off')
+
+plt.subplot(2,2,2)
+plt.imshow(inversion, cmap='gray')
+plt.title("Image inversée (négatif)")
+plt.axis('off')
+
+plt.subplot(2,2,3)
+plt.plot(HISTO(lena), color='black')
+plt.title("Histogramme original")
+plt.xlabel("Niveaux de gris")
+plt.ylabel("Fréquence")
+
+plt.subplot(2,2,4)
+plt.plot(hist_inverse, color='black')
+plt.title("Histogramme après inversion")
+plt.xlabel("Niveaux de gris")
+plt.ylabel("Fréquence")
+
+plt.tight_layout()
+plt.show()
+
+# ============================================================
+# ✅ Fin des Parties 1 et 2 du TP2
+# ============================================================
 
 
 
