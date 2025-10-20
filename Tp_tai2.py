@@ -52,11 +52,9 @@ def TRL(img, C):
     img_trl = np.clip(img_trl, 0, 255)  # garder entre 0 et 255
     return img_trl.astype(np.uint8)
 
-# --- Application TRL ---
 lena_plus = TRL(lena, 50)
 lena_minus = TRL(lena, -50)
 
-# --- Affichage des images et histogrammes ---
 plt.figure(figsize=(12,6))
 
 plt.subplot(2,3,1); plt.imshow(lena, cmap='gray'); plt.title("Image originale"); plt.axis('off')
@@ -70,15 +68,11 @@ plt.subplot(2,3,6); plt.plot(HISTO(lena_minus), color='black'); plt.title("Histo
 plt.tight_layout()
 plt.show()
 
-# ============================================================
-# 🔹 PARTIE 2 - Inversion de l’image : Questions 10 → 12
-# ============================================================
 
-# --- Inversion (négatif) ---
+
 inversion = 255 - lena
 hist_inverse = HISTO(inversion)
 
-# --- Affichage image + histogramme avant/après ---
 plt.figure(figsize=(12,6))
 
 plt.subplot(2,2,1)
@@ -106,9 +100,6 @@ plt.ylabel("Fréquence")
 plt.tight_layout()
 plt.show()
 
-# ============================================================
-# ✅ Fin des Parties 1 et 2 du TP2
-# ============================================================
 
 
 
