@@ -101,7 +101,7 @@ def contraste_expansion(img):
     Imin = np.min(img)
     Imax = np.max(img)
     print(f"Valeurs min et max avant expansion : {Imin}, {Imax}")
-    expanded = ((img - Imin) / (Imax - Imin)) * 255
+    expanded = (255 / (Imax - Imin))*(img - Imin)
     return expanded.astype(np.uint8)
 
 alex_expanded = contraste_expansion(alex)
@@ -127,6 +127,13 @@ plt.title("Histogramme après expansion")
 
 plt.tight_layout()
 plt.show()
+
+
+
+
+T=120
+lena_s=cv2.threshold(lena,T,255,cv2,THRESH_BINARY)
+
 
 
 
