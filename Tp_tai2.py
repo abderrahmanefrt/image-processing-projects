@@ -6,11 +6,9 @@ import random
 
 
 
-# --- Lecture des images ---
 lena = cv2.imread('lena.jpg', cv2.IMREAD_GRAYSCALE)
 alex = cv2.imread('alex.png', cv2.IMREAD_GRAYSCALE)
 
-# --- Création d’une image binaire B avec un rectangle aléatoire ---
 B = np.zeros_like(lena, dtype=np.uint8)
 h, w = lena.shape
 x1, y1 = random.randint(0, w // 2), random.randint(0, h // 2)
@@ -47,9 +45,9 @@ plt.show()
 
 
 def TRL(img, C):
-    """Ajoute une constante C à chaque pixel (translation de luminosité)"""
-    img_trl = img.astype(np.int16) + C  # éviter débordement
-    img_trl = np.clip(img_trl, 0, 255)  # garder entre 0 et 255
+  
+    img_trl = img.astype(np.int16) + C
+    img_trl = np.clip(img_trl, 0, 255)
     return img_trl.astype(np.uint8)
 
 lena_plus = TRL(lena, 50)
@@ -58,8 +56,8 @@ lena_minus = TRL(lena, -50)
 plt.figure(figsize=(12,6))
 
 plt.subplot(2,3,1); plt.imshow(lena, cmap='gray'); plt.title("Image originale"); plt.axis('off')
-plt.subplot(2,3,2); plt.imshow(lena_plus, cmap='gray'); plt.title("C = +50 (plus claire)"); plt.axis('off')
-plt.subplot(2,3,3); plt.imshow(lena_minus, cmap='gray'); plt.title("C = -50 (plus sombre)"); plt.axis('off')
+plt.subplot(2,3,2); plt.imshow(lena_plus, cmap='gray'); plt.title("C = +50 "); plt.axis('off')
+plt.subplot(2,3,3); plt.imshow(lena_minus, cmap='gray'); plt.title("C = -50 "); plt.axis('off')
 
 plt.subplot(2,3,4); plt.plot(HISTO(lena), color='black'); plt.title("Histogramme original")
 plt.subplot(2,3,5); plt.plot(HISTO(lena_plus), color='black'); plt.title("Histogramme +50")
@@ -97,9 +95,38 @@ plt.title("Histogramme après inversion")
 plt.xlabel("Niveaux de gris")
 plt.ylabel("Fréquence")
 
+
+
+def contraste_expansion(img):
+    Imin = np.min(img)
+    Imax = np.max(img)
+    print(f"Valeurs min et max avant expansion : {Imin}, {Imax}")
+    expanded = ((img - Imin) / (Imax - Imin)) * 255
+    return expanded.astype(np.uint8)
+
+alex_expanded = contraste_expansion(alex)
+
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 2, 1)
+plt.imshow(alex, cmap='gray')
+plt.title("Image originale (Alex)")
+plt.axis('off')
+
+plt.subplot(2, 2, 2)
+plt.imshow(alex_expanded, cmap='gray')
+plt.title("Après étirement du contraste")
+plt.axis('off')
+
+plt.subplot(2, 2, 3)
+plt.plot(HISTO(alex), color='black')
+plt.title("Histogramme original")
+
+plt.subplot(2, 2, 4)
+plt.plot(HISTO(alex_expanded), color='black')
+plt.title("Histogramme après expansion")
+
 plt.tight_layout()
 plt.show()
-
 
 
 
