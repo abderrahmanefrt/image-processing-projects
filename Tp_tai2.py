@@ -131,12 +131,6 @@ plt.show()
 
 
 
-T=120
-lena_s=cv2.threshold(lena,T,255,cv2,THRESH_BINARY)
-
-
-
-
 '''plt.figure(figsize=(12, 6))
 
 plt.subplot(2, 4, 1)
