@@ -128,6 +128,36 @@ plt.title("Histogramme après expansion")
 plt.tight_layout()
 plt.show()
 
+T = 120  # Seuil choisi manuellement
+_, lena_thresh = cv2.threshold(lena, T, 255, cv2.THRESH_BINARY)
+_, alex_thresh = cv2.threshold(alex, T, 255, cv2.THRESH_BINARY)
+
+# --- Affichage des résultats ---
+plt.figure(figsize=(10,5))
+plt.subplot(2,2,1); plt.imshow(lena, cmap='gray'); plt.title("Lena originale"); plt.axis('off')
+plt.subplot(2,2,2); plt.imshow(lena_thresh, cmap='gray'); plt.title(f"Seuillage simple (T={T})"); plt.axis('off')
+plt.subplot(2,2,3); plt.imshow(alex, cmap='gray'); plt.title("Alex originale"); plt.axis('off')
+plt.subplot(2,2,4); plt.imshow(alex_thresh, cmap='gray'); plt.title(f"Seuillage simple (T={T})"); plt.axis('off')
+plt.tight_layout(); plt.show()
+
+
+T_otsu_lena, lena_otsu = cv2.threshold(lena, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+T_otsu_alex, alex_otsu = cv2.threshold(alex, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+print("Seuil Otsu pour Lena :", T_otsu_lena)
+print("Seuil Otsu pour Alex :", T_otsu_alex)
+
+plt.figure(figsize=(12,6))
+plt.subplot(2,3,1); plt.imshow(lena, cmap='gray'); plt.title("Lena originale"); plt.axis('off')
+plt.subplot(2,3,2); plt.imshow(lena_thresh, cmap='gray'); plt.title(f"Seuillage simple (T={T})"); plt.axis('off')
+plt.subplot(2,3,3); plt.imshow(lena_otsu, cmap='gray'); plt.title(f"Otsu (T={int(T_otsu_lena)})"); plt.axis('off')
+
+plt.subplot(2,3,4); plt.imshow(alex, cmap='gray'); plt.title("Alex originale"); plt.axis('off')
+plt.subplot(2,3,5); plt.imshow(alex_thresh, cmap='gray'); plt.title(f"Seuillage simple (T={T})"); plt.axis('off')
+plt.subplot(2,3,6); plt.imshow(alex_otsu, cmap='gray'); plt.title(f"Otsu (T={int(T_otsu_alex)})"); plt.axis('off')
+
+plt.tight_layout()
+plt.show()
 
 
 
