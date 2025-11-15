@@ -25,8 +25,7 @@ It includes basic operations such as image loading, resizing, color conversions,
 │ └── utils.py
 └── README.md
 
-markdown
-Copier le code
+
 ---
 
 ## ✨ Features
