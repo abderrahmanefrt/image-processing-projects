@@ -108,12 +108,3 @@ NumPy Docs: https://numpy.org/doc
 
 
 ---
-
-If you want, I can also generate:
-
-✅ A shorter version  
-✅ A more advanced version for university projects  
-✅ One including sample code for each feature  
-✅ One including badges, licenses, UML diagram, or installation GIF  
-
-Just tell me!
